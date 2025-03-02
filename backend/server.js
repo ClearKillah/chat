@@ -38,6 +38,16 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/telegram-
 // Socket.io setup
 socketService.init(io);
 
+// Initialize Telegram bot if BOT_TOKEN is provided
+if (process.env.BOT_TOKEN) {
+  try {
+    require('./bot');
+    console.log('Telegram bot initialized');
+  } catch (error) {
+    console.error('Failed to initialize Telegram bot:', error);
+  }
+}
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
